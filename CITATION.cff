@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use this project in your research, please cite it."
+authors:
+  - family-names: "Babiano"
+    given-names: "Adrià"
+    orcid: "https://orcid.org/0009-0002-7488-7719"
+  - family-names: "Romero"
+    given-names: "Patrick"
+  - family-names: "Iglesias"
+    given-names: "Aidar"
+title: "OpenINS: From RF Design to Sensor Fusion"
+version: 0.1.0
+date-released: 2025-10-11
+repository-code: "https://github.com/Bubi2001/OpenINS"
+license: MIT
+keywords:
+  # Core Concepts
+  - "inertial-navigation-system"
+  - "ins"
+  - "sensor-fusion"
+  - "extended-kalman-filter"
+  - "ekf"
+  - "state-estimation"
+  # Hardware
+  - "pcb-design"
+  - "kicad"
+  - "rf-design"
+  # Components
+  - "imu"
+  - "gps"
+  - "barometer"
+  - "esp32c6"
+  - "rp2354b"
+  # Software
+  - "embedded-c"
+  - "firmware"
+  # Project Type
+  - "open-source-hardware"
+  - "reference-design"
