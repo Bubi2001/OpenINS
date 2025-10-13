@@ -1,0 +1,159 @@
+# .github/workflows/ci.yml
+
+# Name of the workflow, which will be displayed on the GitHub Actions tab
+name: OpenINS Continuous Integration
+
+# --- Triggers ---
+# This workflow runs on pushes to the 'main' branch and on any pull request
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# --- Jobs ---
+# A workflow is made up of one or more jobs that can run in parallel
+jobs:
+  # Job 1: Check the Python scripts for code style issues
+  lint-python-scripts:
+    name: 🐍 Lint Python Scripts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install flake8
+      - name: Run Flake8 linter
+        run: |
+          # Stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # Exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+  # Job 2: Check the KiCad hardware design files for errors
+  check-kicad-drc:
+    name:  EDA Check KiCad Files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up KiCad CLI
+        uses: gautier-bonnet/kicad-action@v1
+        with:
+          kicad-version: '7.0' # Specify your KiCad version
+      - name: Run Electrical Rules Checker (ERC) on Schematic
+        # This step will fail if any ERC violations are found, stopping the workflow
+        run: |
+          kicad-cli sch erc --output "erc_report.txt" --format text "hardware/kicad/OpenINS.kicad_sch"
+      - name: Run Design Rules Checker (DRC) on PCB
+        # This step will fail if any DRC violations are found
+        run: |
+          kicad-cli pcb drc --output "drc_report.txt" --format text "hardware/kicad/OpenINS.kicad_pcb"
+      - name: Upload KiCad Reports
+        # This step uses 'if: always()' to ensure it runs even if the ERC/DRC steps fail
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kicad-reports
+          path: |
+            erc_report.txt
+            drc_report.txt
+
+  # Job 3: Generate hardware artifacts using KiBot
+  hardware-automation:
+    name: ⚙️ Generate Hardware Artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run KiBot to generate Renders and BOM
+        uses: INTI-CMNB/KiBot@v2
+        with:
+          # Define which outputs from your .kibot.yaml file to generate
+          outputs: 'render_3d, bom_html'
+
+      - name: Upload Hardware Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hardware-artifacts
+          path: |
+            build/render_3d/
+            build/bom_html/
+
+  # Job 4: Check C code formatting using clang-format
+  check-code-format:
+    name: ✍️ Check C Code Formatting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Run clang-format check
+        uses: jidokein/clang-format-action@v4
+        with:
+          source-dir: 'firmware' # The directory containing your C code
+          style: 'file' # Tells the action to use your .clang-format file
+          check-changed-files-only: 'false' # Check all files, not just changed ones
+
+
+  # Job 5: Run static analysis on the C code using cppcheck
+  static-analysis:
+    name: 🔬 Run Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive' # Important if headers are in submodules
+      - name: Install cppcheck
+        run: sudo apt-get update && sudo apt-get install -y cppcheck
+      - name: Run cppcheck
+        # This command checks all files in the firmware directory.
+        # --error-exitcode=1 makes the job fail if any error-level issue is found.
+        # --suppress=missingIncludeSystem is useful in CI to avoid false positives.
+        run: |
+          cppcheck --enable=all --error-exitcode=1 --suppise=missingIncludeSystem --inline-suppr -I firmware/common/include path/to/pico-firmware path/to/esp32-firmware
+
+  # Job 6: Build the firmware for the Raspberry Pi Pico (RP2354B)
+  build-firmware-pico:
+    name: Compile Firmware (Pico SDK)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+      - name: Install ARM GCC Toolchain and CMake
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
+      - name: Build the project
+        run: |
+          cd firmware/rp2354b 
+          mkdir build
+          cd build
+          cmake ..
+          make
+
+  # Job 7: Build the firmware for the ESP32-C6
+  build-firmware-esp32:
+    name: Compile Firmware (ESP-IDF)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive' # Important for plànols and EmbedDSP
+      - name: Set up ESP-IDF
+        uses: espressif/idf-actions/setup-idf@v5
+        with:
+          esp-idf-version: 'v5.1' # Or your target IDF version
+          target: 'esp32c6'      # Specify your exact MCU
+      - name: Build the project
+        working-directory: firmware/esp32c6
+        run: idf.py build

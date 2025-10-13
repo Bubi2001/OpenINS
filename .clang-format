@@ -1,0 +1,41 @@
+# .clang-format
+
+# This tells clang-format to use the Google style as a starting point.
+# Other popular options: LLVM, Microsoft, Mozilla, WebKit
+BasedOnStyle: Google
+
+# --- Customizations ---
+# The following settings will override the defaults from the 'Google' style.
+
+# Set the width for indentation. Google's default is 2, but 4 is very common.
+IndentWidth: 4
+TabWidth: 4
+
+# Never use hardware tabs, always use spaces. This is a best practice.
+# Options: Never, ForIndentation, ForContinuationAndAlignment, Always
+UseTab: Never
+
+# The maximum number of characters allowed on a single line. Google's default is 80.
+# 100 or 120 are common in modern projects.
+ColumnLimit: 120
+
+# Align pointer symbols to the left, next to the type (e.g., int* p;).
+# Options: Left, Right, Middle
+PointerAlignment: Left
+
+# How to wrap curly braces. Do not put braces on a new line for functions, control statements, structs, unions, enums, or extern blocks.
+BraceWrapping:
+  AfterFunction: false
+  AfterControlStatement: false
+  AfterStruct: false
+  AfterUnion: false
+  AfterEnum: false
+  AfterExternBlock: false
+  BeforeElse: false
+
+# Don't allow short functions to be collapsed onto a single line.
+# Options: None, Inline, Empty, All
+AllowShortFunctionsOnASingleLine: None
+
+# Sort #include directives. This keeps them clean and organized.
+SortIncludes: true

@@ -1,0 +1,26 @@
+# .kibot.yaml - KiBot Configuration File
+
+kibot:
+  version: 1
+
+outputs:
+  # Output for a 3D render of the PCB
+  render_3d:
+    type: render_3d
+    options:
+      # You can customize the camera angle and other settings here
+      camera_distance: 25
+      camera_rotation: [0, -60, -30]
+
+  # Output for an interactive HTML Bill of Materials
+  bom_html:
+    type: bom
+    options:
+      format: html
+      # Add more columns to your BOM as needed
+      columns:
+        - 'Value'
+        - 'Reference'
+        - 'Footprint'
+        - 'Datasheet'
+        - 'LCSC' # Example custom field from your schematic

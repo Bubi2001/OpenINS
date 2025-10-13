@@ -1,0 +1,26 @@
+site_name: OpenINS Documentation
+docs_dir: docs
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.top
+  palette:
+    - scheme: default
+      primary: red
+      accent: blue
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+    - scheme: slate
+      primary: red
+      accent: light-blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+nav:
+  - 'Home': 'index.md'
+  - 'Contributing': 'CONTRIBUTING.md'
+  - '':
+    - '':
