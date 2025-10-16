@@ -5,6 +5,10 @@ theme:
   features:
     - navigation.tabs
     - navigation.top
+    - navigation.sections
+    - search.suggest
+    - search.highlight
+    - content.code.copy
   palette:
     - scheme: default
       primary: red
@@ -22,5 +26,18 @@ theme:
 nav:
   - 'Home': 'index.md'
   - 'Contributing': 'CONTRIBUTING.md'
-  - '':
-    - '':
+  - 'Getting Started': 'getting_started.md'
+  - 'RF Basics': 'rf_basics.md'
+  - 'Sensor Fusion Basics': 'sensor_fusion.md'
+  - 'Algorithms': 'algorithms.md'
+  - 'Design Choices': 'design_choices.md'
+
+plugins:
+  - search
+  - git-revision-date-localized:
+      type: date
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
