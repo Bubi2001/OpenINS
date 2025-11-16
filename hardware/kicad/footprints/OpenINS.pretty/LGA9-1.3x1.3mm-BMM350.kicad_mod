@@ -1,0 +1,168 @@
+(footprint "LGA9-1.3x1.3mm-BMM350"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at 3.13 -1.34 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "4fc82c60-5a00-415d-b219-bed58339cea7")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
+	(property "Value" "LGA9-1.3x1.3mm-BMM350"
+		(at 6.33 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "f34bc894-152a-4bc2-8c6b-8f0d814eaa46")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmm350-ds001.pdf"
+		(at 6.33 -1 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "2de43926-2ee2-44b5-90c3-fbd07576fce7")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "The BMM350 is a 3-axis magnetic sensor which operates in automatic mode or triggered mode. The magnetic-to-digital conversion technology is based on TMR (tunnel magneto resistance)"
+		(at 6.33 -1 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "a2f165c4-ead0-4337-870d-a50c32b32a36")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_rect
+		(start -0.65 -0.65)
+		(end 0.65 0.65)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "f57d447a-d108-4f2e-8583-0be5e51b3361")
+	)
+	(fp_arc
+		(start -0.410294 0.650294)
+		(mid -0.82 0.82)
+		(end -0.650294 0.410294)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "04ce62a4-d09b-48af-b3a8-3246ffef743d")
+	)
+	(fp_rect
+		(start -0.75 -0.76)
+		(end 0.76 0.76)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "1042d8d2-bd9e-407e-9c45-872313846e1f")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 6.33 1.5 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "196f3870-1559-4d71-8899-eac94ccb9fce")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "A1" smd circle
+		(at -0.4 0.4)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "f2bbf389-0b49-441c-94b9-8d0741a176d6")
+	)
+	(pad "A2" smd circle
+		(at -0.4 0)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "7b3270cb-707b-44b6-ba7c-581dc5a751e8")
+	)
+	(pad "A3" smd circle
+		(at -0.4 -0.4)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "3f068088-54ef-4e2a-9715-6af846d466d2")
+	)
+	(pad "B1" smd circle
+		(at 0 0.4)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "04b829b5-168a-4332-b536-26c8b74abb95")
+	)
+	(pad "B2" smd circle
+		(at 0 0)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "75cbce5b-be6f-4e73-91c9-a7ce269d0d85")
+	)
+	(pad "B3" smd circle
+		(at 0 -0.4)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "ff9fcf75-9527-4a06-9316-7c338a561586")
+	)
+	(pad "C1" smd circle
+		(at 0.4 0.4)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "7f45305d-6713-4054-9343-c4e657aee331")
+	)
+	(pad "C2" smd circle
+		(at 0.4 0)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "db399034-591a-4973-971a-7b4c8b976cb6")
+	)
+	(pad "C3" smd circle
+		(at 0.4 -0.4)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "c555bb6f-5ec4-45e7-ae93-93ec820423b7")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/3d_models/BMM350.STEP"
+		(offset
+			(xyz 0 0 -0.18)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -90 -0 -90)
+		)
+	)
+)

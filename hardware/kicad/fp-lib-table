@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "OpenINS")(type "KiCad")(uri "${KIPRJMOD}/footprints/OpenINS.pretty")(options "")(descr ""))
+)
