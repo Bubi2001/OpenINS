@@ -1,0 +1,72 @@
+---
+config:
+  layout: dagre
+---
+flowchart LR
+ subgraph subGraph0["RF Shield Can Base GNSS Module"]
+    direction LR
+        Base_trace("50-Ohm GCPW")
+        Base_connector("SMA")
+        Base_filter("SAW Filter")
+        Base("LC29HEA Base")
+        Base_biasT("Bias-T")
+  end
+ subgraph subGraph1["RF Shield Can Rover GNSS Module"]
+    direction LR
+        Rover_trace("50-Ohm GCPW")
+        Rover_connector("SMA")
+        Rover_filter("SAW Filter")
+        Rover("LC29HEA Rover")
+        Rover_biasT("Bias-T")
+  end
+ subgraph subGraph2["RF Shield Can GNSS"]
+    direction LR
+        subGraph0
+        subGraph1
+  end
+ subgraph subGraph3["RF Shield Can Radio"]
+    direction LR
+        Radio("ESP32-C6")
+        Radio_xtal("12 MHz Crystal")
+        Radio_trace("50-Ohm GCPW")
+        adapt("CLC network")
+        match("CLCCL network")
+  end
+    Connector("USB C") -- +5V --> Buck("Buck Power Module w/ integrated inductor") & LDO("Ultra-Low-Noise LDO")
+    Connector <--> Hub("USB 2.0 Hub")
+    Hub <--> RTK("RP2354B RTK engine") & INS("RP2354B INS fusion") & Radio
+    Base_connector <--> Base_trace
+    Base_trace --> Base_filter
+    Base_filter --> Base
+    Base_biasT --> Base_trace
+    Rover_connector <--> Rover_trace
+    Rover_trace --> Rover_filter
+    Rover_filter --> Rover
+    Rover_biasT --> Rover_trace
+    Radio_xtal --> Radio
+    Radio <--> match
+    match <--> adapt
+    adapt <--> Radio_trace
+    Radio_trace <--> MIFA("Meandered Inverted-F Antenna")
+    Base_antenna("Dual Band L1+L5 Active Ceramic Patch Antenna") <--> Base_connector
+    Rover_antenna("Dual Band L1+L5 Active Ceramic Patch Antenna") <--> Rover_connector
+    Base <-- UART --> Rover & RTK
+    LDO -- +3V3 --> Base_biasT & Base & Rover_biasT & Rover & IMU("BMI088") & Mag("BMM350") & Baro("BMP581")
+    Buck -- +3V3 --> RTK & INS & Radio & Hub
+    RTK_xtal("12 MHz Crystal") --> RTK
+    Rover <-- UART --> RTK
+    Base -- 1PPS --> RTK
+    Rover -- 1PPS --> RTK
+    RTK <-- PIO --> INS
+    INS <-- SPI --> Radio
+    INS_xtal("12 MHz Crystal") --> INS
+    IMU <-- SPI --> INS
+    IMU -- INT --> INS
+    Mag <-- I2C --> INS
+    Mag -- INT --> INS
+    Baro <-- I2C --> INS
+    Baro -- INT --> INS
+    ZUPT("ZUPT button") --> INS
+    RTK --> LEDs("Status LEDs")
+    INS --> LEDs
+    Radio --> LEDs
