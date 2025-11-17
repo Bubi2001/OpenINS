@@ -70,13 +70,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Run KiBot to generate Renders and BOM
         uses: INTI-CMNB/KiBot@v2
         with:
           # Define which outputs from your .kibot.yaml file to generate
           outputs: 'render_3d, bom_html'
-
       - name: Upload Hardware Artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -99,7 +97,6 @@ jobs:
           source-dir: 'firmware' # The directory containing your C code
           style: 'file' # Tells the action to use your .clang-format file
           check-changed-files-only: 'false' # Check all files, not just changed ones
-
 
   # Job 5: Run static analysis on the C code using cppcheck
   static-analysis:
@@ -148,12 +145,12 @@ jobs:
       - name: Checkout repository with submodules
         uses: actions/checkout@v4
         with:
-          submodules: 'recursive' # Important for plànols and EmbedDSP
+          submodules: 'recursive'
       - name: Set up ESP-IDF
         uses: espressif/idf-actions/setup-idf@v5
         with:
           esp-idf-version: 'v5.1' # Or your target IDF version
-          target: 'esp32c6'      # Specify your exact MCU
+          target: 'esp32c6'
       - name: Build the project
         working-directory: firmware/esp32c6
         run: idf.py build
