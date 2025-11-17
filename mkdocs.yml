@@ -25,19 +25,65 @@ theme:
 
 nav:
   - 'Home': 'index.md'
+  - 'Getting Started': 'documentation/getting_started.md'
+  - 'Hardware Reference':
+    - 'Board Design & Schematics': 'documentation/hardware/board_design.md'
+    - 'GPS RF Design & Simulation': 'documentation/hardware/gps_rf.md'
+    - 'WiFi RF Design': 'documentation/hardware/wifi_rf.md'
+    - 'Bill of Materials (BOM)': 'documentation/hardware/bom.md'
+  - 'Firmware & Software':
+    - 'Architecture & Setup': 'documentation/firmware/architecture.md'
+    - 'Data Logging & Formats': 'documentation/firmware/data_logging.md'
+    - 'Driver API':
+      - 'BMI088': 'documentation/firmware/api/BMI088.md'
+      - 'BMM350': 'documentation/firmware/api/BMM350.md'
+      - 'BMP581': 'documentation/firmware/api/BMP581.md'
+      - 'LC29HEA': 'documentation/firmware/api/LC29HEA.md'
+      - 'Inter MCU protocol': 'documentation/firmware/api/inter_mcu.md'
+  - 'Sensor Fusion Algorithms':
+    - 'Core Concepts': 'documentation/algorithms/overview.md'
+    - 'Complementary & AHRS Filters': 'documentation/algorithms/simple_filters.md'
+    - 'Extended Kalman Filter (EKF)': 'documentation/algorithms/ekf.md'
+    - 'Unscented Kalman Filter (UKF)': 'documentation/algorithms/ukf.md'
+    - 'RTK-GNSS Integration': 'documentation/algorithms/rtk_gnss.md'
+  - 'Simulation & Validation':
+    - 'RF System Simulation': 'documentation/validation/simulations.md'
+    - 'RF System Validation': 'documentation/validation/physical_verfication.md'
+  - 'Background Theory':
+    - 'Micro-ElectroMechanical Systems (MEMS) Sensors Fundamentals': 'documentation/theory/mems.md'
+    - 'GNSS Fundamentals': 'documentation/theory/gnss.md'
+    - 'RF & Antenna Fundamentals': 'documentation/theory/rf_antennas.md'
+    - 'Sensor Fusion Fundamentals': 'documentation/theory/sensor_fusion.md'
+    - 'Real-Time Operating Systems (RTOS)': 'documentation/theory/rtos.md'
+  - 'Practical Guides':
+    - 'Assembly & Debugging': 'documentation/guides/assembly_debugging.md'
+    - 'Enclosure Design': 'documentation/guides/enclosure_design.md'
+  - 'Benchmarks': 'documentation/benchmarks.md'
   - 'Contributing': 'CONTRIBUTING.md'
-  - 'Getting Started': 'getting_started.md'
-  - 'RF Basics': 'rf_basics.md'
-  - 'Sensor Fusion Basics': 'sensor_fusion.md'
-  - 'Algorithms': 'algorithms.md'
-  - 'Design Choices': 'design_choices.md'
 
 plugins:
   - search
   - git-revision-date-localized:
-      type: date
+    type: date
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://cdn.jsdelivr.net/npm/chart.js
+  - javascripts/benchmark-chart.js
 
 markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.arithmatex:
+    generic: true
+  - pymdownx.highlight:
+    anchor_linenums: true
+    line_spans: __span
+    pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - mdx_truly_sane_lists
+  - mermaid
