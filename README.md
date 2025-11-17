@@ -9,36 +9,35 @@
 
 > OpenINS is an open-source Inertial Navigation System (INS) project that serves as a complete reference guide for designing and building your own high-performance sensor fusion platform. This repository documents the entire engineering process, from advanced RF PCB design and simulation to firmware development and physical verification.
 
-The design focuses on the implementation of the RF design to add an active antena (via u.FL connector) for the GPS module and a Meandered Inverted-F Antenna (MIFA) for the wireless communications. The firmware on the RP2354B will be implemented using its official SDK and the goal is to perform an Extended Kalman Filter to fuse data from all the sensors to get accurate inertial navigation data. The firmware on the ESP32C6 will be implemented using ESP-IDF and the goal is to communicate wirelessly the fused data.
+The design focuses on the implementation of the RF design to add an active antena (via SMA connector) for the GPS module and a Meandered Inverted-F Antenna (MIFA) for the wireless communications. The firmware on the RP2354B will be implemented using its official SDK and the goal is to perform an Extended Kalman Filter to fuse data from all the sensors to get accurate inertial navigation data. The firmware on the ESP32C6 will be implemented using ESP-IDF and the goal is to communicate wirelessly the fused data.
 
 ## 🌟 Key Features
 
 - **Hardware**:
-
-  - Custom 4-layer PCB designed in KiCAD.
+  - Custom 6-layer PCB designed in KiCAD.
   - Impedance-controlled trace for the GPS active antenna.
   - Integrated Bias-T circuit to power the external LNA of the GPS antenna.
   - On-board impedance-matched trace antenna for the ESP32's Wi-Fi/Bluetooth.
   - Careful component placement and layout for optimal signal integrity.
-  - Contains a NEO M9N GPS module.
-  - Contains a xx Inertial Measurement Unit.
-  - Contains a xx Barometer.
-  - Contains a RP2354B for Sensor Fusion algorithms
-  - Contains a ESP32C6 for Wireless Communication
+  - Contains dual NEO-F10N-00B-20 GPS modules.
+  - Contains a BMI088 Inertial Measurement Unit.
+  - Contains a BMM350 Magnetometer.
+  - Contains a BMP581 Barometer.
+  - Contains dual RP2354B for Sensor Fusion algorithms and custom RTK engine.
+  - Contains a ESP32-C6 for Wireless Communication.
+
 - **Firmware**:
+  - One RP2354B works as RTK engine with PIO atomic timestamping.
+  - Another RP2354B runs 48 Kalman Filter Variants distributed among 6 axes of comparison.
+  - An ESP32-C6 is used for high performance wireless data streaming of fused orientation and position data.
 
-  - Powered by an ESP32-S3/C6 for high performance and wireless connectivity.
-  - Advanced sensor fusion using an Extended Kalman Filter (EKF).
-  - Modular software architecture using the `plànols` repository as a git submodule for core drivers and math libraries.
-  - Wireless data streaming of fused orientation and position data.
 - **Complete Workflow**:
-
-  - RF sections (antennas, filters) simulated using **OpenEMS** and **Octave**.
+  - RF sections (antennas, filters) simulated using **OpenEMS**, **Octave** and **Python**.
   - Real-world performance validated with a Vector Network Analyzer (VNA) and spectrum analyzer.
 
 ## ⚙️ System Block Diagram
 
-![System Block Diagram](docs/assets/system_block_diagram.svg)
+![System Block Diagram](docs/assets/ins.svg)
 
 ## 🗂️ Repository Structure
 
@@ -96,38 +95,38 @@ This project emphasizes the importance of validating design choices.
 ### **Phase 1: Research & Component Selection**
 
 - [ ] **Define Performance Goals**: Finalize the target accuracy, update rate (Hz), and power consumption.
-- [X] **GNSS Module Selection**: Select a GPS/GNSS module. Module selected is NEO M9N GPS.
-- [ ] **IMU Selection**: Compare and choose an Inertial Measurement Unit based on noise, stability, and power features.
-- [ ] **Barometer Selection**: Choose a high-precision barometer for altitude stabilization.
+- [X] **GNSS Module Selection**: Select a GPS/GNSS module. Module selected is Quectel NEO-F10N-00B-20 GPS.
+- [X] **IMU Selection**: Compare and choose an Inertial Measurement Unit based on noise, stability, and power features. 6-DoF IMU selected is BMI088 and 3D magnetometer is BMM350.
+- [X] **Barometer Selection**: Choose a high-precision barometer for altitude stabilization. Barometer selected is BMP581.
 - [X] **MCU Selection**: Lock in the final microcontroller selection. Selected MCUs are RP2354B for processing and ESP32C6 for communication.
 
 ### **Phase 2: Hardware Design & Simulation**
 
-- [ ]  **Schematic Design**: Create the full circuit schematic in KiCAD, including power management and programming interface.
-- [ ]  **PCB Layout**: Design the 4-layer PCB layout, focusing on RF best practices (uninterrupted ground planes, controlled impedance routing, antenna clearance).
-- [ ]  **RF Simulation**: Simulate the ESP32's trace antenna and the GPS bias-tee filter using OpenEMS and Octave to validate the design before manufacturing.
-- [ ]  **Design Review**: Final check of the layout, footprints, and connections.
-- [ ]  **Generate Manufacturing Files**: Create the final Gerbers, BoM, and Pick-and-Place files.
+- [ ] **Schematic Design**: Create the full circuit schematic in KiCAD, including power management and programming interface.
+- [ ] **PCB Layout**: Design the 4-layer PCB layout, focusing on RF best practices (uninterrupted ground planes, controlled impedance routing, antenna clearance).
+- [ ] **RF Simulation**: Simulate the ESP32's trace antenna and the GPS bias-tee filter using OpenEMS and Octave to validate the design before manufacturing.
+- [ ] **Design Review**: Final check of the layout, footprints, and connections.
+- [ ] **Generate Manufacturing Files**: Create the final Gerbers, BoM, and Pick-and-Place files.
 
 ### **Phase 3: Firmware Development**
 
-- [ ]  **Initial Setup**: Create the firmware project the relevant toolchains.
-- [ ]  **Sensor Drivers**: Write and test the code to read raw data from the selected IMU, GNSS, and barometer.
-- [ ]  **Implement EKF**: Port or develop the Extended Kalman Filter algorithm for sensor fusion.
-- [ ]  **Calibration Routine**: Develop a robust calibration routine for the accelerometer, gyroscope, and magnetometer.
-- [ ]  **Wireless Interface**: Implement the code to stream the fused data (quaternions, Euler angles, position) over Wi-Fi or Bluetooth.
+- [ ] **Initial Setup**: Create the firmware project the relevant toolchains.
+- [ ] **Sensor Drivers**: Write and test the code to read raw data from the selected IMU, GNSS, and barometer.
+- [ ] **Implement EKF**: Port or develop the Extended Kalman Filter algorithm for sensor fusion.
+- [ ] **Calibration Routine**: Develop a robust calibration routine for the accelerometer, gyroscope, and magnetometer.
+- [ ] **Wireless Interface**: Implement the code to stream the fused data (quaternions, Euler angles, position) over Wi-Fi or Bluetooth.
 
 ### **Phase 4: Prototyping & Verification**
 
-- [ ]  **Order & Assemble**: Order the first batch of PCBs and assemble the first prototype.
-- [ ]  **Physical Verification**: Use a VNA to test the impedance of the antennas and filters, comparing the results with the simulations.
-- [ ]  **Testing & Debugging**: Flash the firmware and perform real-world tests to fine-tune the filter and validate performance.
+- [ ] **Order & Assemble**: Order the first batch of PCBs and assemble the first prototype.
+- [ ] **Physical Verification**: Use a VNA to test the impedance of the antennas and filters, comparing the results with the simulations.
+- [ ] **Testing & Debugging**: Flash the firmware and perform real-world tests to fine-tune the filter and validate performance.
 
 ### **Phase 5: Final Touches & Documentation**
 
-- [ ]  **Data Visualizer**: Create a simple Python script or web-based dashboard to visualize the orientation and position data in real-time.
-- [ ]  **Enclosure Design**: Design and 3D-print a custom enclosure for the device.
-- [ ]  **Finalize Documentation**: Complete the `README.md` and write detailed guides in the `/docs` folder.
+- [ ] **Data Visualizer**: Create a simple Python script or web-based dashboard to visualize the orientation and position data in real-time.
+- [ ] **Enclosure Design**: Design and 3D-print a custom enclosure for the device.
+- [ ] **Finalize Documentation**: Complete the `README.md` and write detailed guides in the `/docs` folder.
 
 ## 🤝 Contributing
 
