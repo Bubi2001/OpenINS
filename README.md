@@ -14,6 +14,7 @@ The design focuses on the implementation of the RF design to add an active anten
 ## 🌟 Key Features
 
 - **Hardware**:
+
   - Custom 6-layer PCB designed in KiCAD.
   - Impedance-controlled trace for the GPS active antenna.
   - Integrated Bias-T circuit to power the external LNA of the GPS antenna.
@@ -25,13 +26,13 @@ The design focuses on the implementation of the RF design to add an active anten
   - Contains a BMP581 Barometer.
   - Contains dual RP2354B for Sensor Fusion algorithms and custom RTK engine.
   - Contains a ESP32-C6 for Wireless Communication.
-
 - **Firmware**:
+
   - One RP2354B works as RTK engine with PIO atomic timestamping.
   - Another RP2354B runs 48 Kalman Filter Variants distributed among 6 axes of comparison.
   - An ESP32-C6 is used for high performance wireless data streaming of fused orientation and position data.
-
 - **Complete Workflow**:
+
   - RF sections (antennas, filters) simulated using **OpenEMS**, **Octave** and **Python**.
   - Real-world performance validated with a Vector Network Analyzer (VNA) and spectrum analyzer.
 
@@ -95,7 +96,7 @@ This project emphasizes the importance of validating design choices.
 ### **Phase 1: Research & Component Selection**
 
 - [ ] **Define Performance Goals**: Finalize the target accuracy, update rate (Hz), and power consumption.
-- [X] **GNSS Module Selection**: Select a GPS/GNSS module. Module selected is Quectel NEO-F10N-00B-20 GPS.
+- [X] **GNSS Module Selection**: Select a GPS/GNSS module. Module selected is u-blox NEO-F10N-00B-20 GPS.
 - [X] **IMU Selection**: Compare and choose an Inertial Measurement Unit based on noise, stability, and power features. 6-DoF IMU selected is BMI088 and 3D magnetometer is BMM350.
 - [X] **Barometer Selection**: Choose a high-precision barometer for altitude stabilization. Barometer selected is BMP581.
 - [X] **MCU Selection**: Lock in the final microcontroller selection. Selected MCUs are RP2354B for processing and ESP32C6 for communication.
